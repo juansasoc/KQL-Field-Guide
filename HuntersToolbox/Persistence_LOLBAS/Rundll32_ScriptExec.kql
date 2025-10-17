@@ -1,0 +1,8 @@
+// rundll32 script COM exec - MITRE T1218.011
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName =~ "rundll32.exe"
+| where ProcessCommandLine has_any ("javascript:", "mshtml,RunHTMLApplication", "url.dll,FileProtocolHandler", "shell32.dll,Control_RunDLL")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc

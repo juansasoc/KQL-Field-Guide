@@ -1,0 +1,10 @@
+// Scheduled Tasks (Persistence) - MITRE T1053.005
+let lookback = 48h;
+let KnownTasks = _GetWatchlist("known_schtasks") | project TaskName = tolower(TaskName);
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 4698
+| extend TaskName = tolower(extract('Task Name:\s*(.*)', 1, tostring(EventData)))
+| lookup kind=leftanti KnownTasks on TaskName
+| project TimeGenerated, Computer, SubjectUserName, TaskName, EventData
+| order by TimeGenerated desc

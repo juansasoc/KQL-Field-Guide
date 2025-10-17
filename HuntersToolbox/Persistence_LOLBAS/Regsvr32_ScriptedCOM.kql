@@ -1,0 +1,8 @@
+// regsvr32 scriptlet exec - MITRE T1218.010
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName =~ "regsvr32.exe"
+| where ProcessCommandLine has_any ("/i:", ".sct", "scrobj.dll")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc

@@ -1,0 +1,8 @@
+// mshta remote/embedded scripts - MITRE T1218.005
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName =~ "mshta.exe"
+| where ProcessCommandLine has_any ("http://", "https://", ".hta", "vbscript:", "javascript:")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc

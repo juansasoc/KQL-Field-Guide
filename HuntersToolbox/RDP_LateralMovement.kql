@@ -1,0 +1,9 @@
+// RDP Lateral Movement
+let lookback = 24h;
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID in (4624,4625) and LogonType == 10
+| summarize Failures=countif(EventID==4625), Successes=countif(EventID==4624)
+          by TargetUserName, IpAddress=IpAddress, bin(TimeGenerated, 30m)
+| where Successes > 0 and Failures > 10
+| order by Failures desc

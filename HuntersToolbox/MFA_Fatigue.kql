@@ -1,0 +1,9 @@
+// MFA Fatigue / Prompt Bombing
+let lookback = 24h;
+SigninLogs
+| where TimeGenerated >= ago(lookback)
+| mv-expand AuthenticationDetails
+| where tostring(AuthenticationDetails.authenticationMethod) == "PhoneAppNotification"
+| summarize prompts=count() by UserPrincipalName, bin(TimeGenerated, 1h)
+| where prompts > 10
+| order by prompts desc

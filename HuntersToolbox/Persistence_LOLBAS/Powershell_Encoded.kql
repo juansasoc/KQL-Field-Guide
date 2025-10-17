@@ -1,0 +1,8 @@
+// PowerShell encoded/obfuscated - MITRE T1059.001
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName in~ ("powershell.exe","pwsh.exe")
+| where ProcessCommandLine has_any (" -enc ", " -encodedcommand ", "FromBase64String(", "iex ")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc
