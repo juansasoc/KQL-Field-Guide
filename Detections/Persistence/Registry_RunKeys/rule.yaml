@@ -1,0 +1,16 @@
+id: registry_runkeys-auto-20250101000000
+name: Registry RunKeys (Persistence)
+severity: Medium
+status: GA
+queryFrequency: 24h
+queryPeriod: 24h
+triggerOperator: GreaterThan
+triggerThreshold: 0
+tactics:
+  - persistence
+relevantTechniques:
+  - T1060
+query: |
+  // See HuntersToolbox/Persistence_LOLBAS/Registry_RunKeys.kql
+suppressionEnabled: false
+kind: Scheduled

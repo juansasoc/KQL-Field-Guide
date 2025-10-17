@@ -1,0 +1,11 @@
+// Registry Run Keys - MITRE T1060 / T1547
+let lookback = 48h;
+DeviceRegistryEvents
+| where TimeGenerated >= ago(lookback)
+| where ActionType == "RegistryValueSet"
+| where RegistryKey has_any ("\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+                             "\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce",
+                             "\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run")
+| extend Value=tostring(RegistryValueData)
+| project TimeGenerated, DeviceName, RegistryKey, RegistryValueName, Value
+| order by TimeGenerated desc

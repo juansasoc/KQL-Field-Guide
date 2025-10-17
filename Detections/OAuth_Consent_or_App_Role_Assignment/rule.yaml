@@ -1,0 +1,18 @@
+id: d3b7b8c6-0000-4f2a-9b9e-aaaaaaaaaaaa
+name: OAuth Consent or App Role Assignment (Spike)
+severity: High
+status: GA
+queryFrequency: 48h
+queryPeriod: 48h
+triggerOperator: GreaterThan
+triggerThreshold: 0
+tactics:
+  - credential-access
+  - persistence
+relevantTechniques:
+  - T1078
+  - T1136
+query: |
+  // paste query.kql or use the HuntersToolbox/OAuth query
+suppressionEnabled: false
+kind: Scheduled

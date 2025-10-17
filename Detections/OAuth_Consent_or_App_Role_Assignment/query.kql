@@ -1,0 +1,12 @@
+// OAuth Consent / App Role Abuse
+let lookback = 48h;
+AuditLogs
+| where TimeGenerated >= ago(lookback)
+| where Category == "ApplicationManagement"
+| where ActivityDisplayName in ("Consent to application","Add app role assignment to service principal")
+| project TimeGenerated,
+          ActivityDisplayName,
+          InitiatedBy=tostring(InitiatedBy.user.userPrincipalName),
+          App=tostring(TargetResources[0].displayName),
+          AppId=tostring(TargetResources[0].id)
+| order by TimeGenerated desc

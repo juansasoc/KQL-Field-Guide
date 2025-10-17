@@ -1,0 +1,16 @@
+id: service_install_startup-auto-20250101000000
+name: Service Install Startup (Persistence)
+severity: High
+status: GA
+queryFrequency: 24h
+queryPeriod: 24h
+triggerOperator: GreaterThan
+triggerThreshold: 0
+tactics:
+  - persistence
+relevantTechniques:
+  - T1543
+query: |
+  // See HuntersToolbox/Persistence_LOLBAS/Service_Install_Startup.kql
+suppressionEnabled: false
+kind: Scheduled
