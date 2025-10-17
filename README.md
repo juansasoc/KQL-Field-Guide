@@ -12,6 +12,51 @@
 
 A **comprehensive reference** for detection engineers and threat hunters working with Microsoft Sentinel and M365 Defender.
 This repo combines **field guide material** (style, optimization, pivoting) with a curated **Hunter’s Toolbox** of queries, detections, and dashboards.
+## 📚 Table of Contents
+
+- [📖 Field Guide](#-field-guide-best-practices)
+  - [Style Guide](FieldGuide/StyleGuide/README.md)
+  - [Optimization Patterns](FieldGuide/Optimization/README.md)
+  - [Pivoting Playbook](Pivoting/README.md)
+
+- [🔧 Hunter’s Toolbox](#-hunters-toolbox)
+  - [MFA Fatigue / Prompt Bombing](HuntersToolbox/MFA_Fatigue.kql)
+  - [Password Spray](HuntersToolbox/Password_Spray.kql)
+  - [Impossible Travel](HuntersToolbox/Impossible_Travel.kql)
+  - [Defender Tamper Events](HuntersToolbox/Defender_Tamper.kql)
+  - [Kerberoasting](HuntersToolbox/Kerberoasting.kql)
+  - [DCSync](HuntersToolbox/DCSync.kql)
+  - [RDP Lateral Movement](HuntersToolbox/RDP_LateralMovement.kql)
+  - [BEC – Inbox Rules / Exfil](HuntersToolbox/BEC_InboxRules.kql)
+
+  **Persistence & LOLBAS**
+  - [Scheduled Tasks (T1053.005)](HuntersToolbox/Persistence_LOLBAS/ScheduledTasks.kql)
+  - [WMI Event Consumers (T1546.003)](HuntersToolbox/Persistence_LOLBAS/WMI_EventConsumers.kql)
+  - [Registry Run Keys (T1060)](HuntersToolbox/Persistence_LOLBAS/Registry_RunKeys.kql)
+  - [New Accounts & Group Adds (T1098)](HuntersToolbox/Persistence_LOLBAS/NewAccounts_GroupAdds.kql)
+  - [Service Install Startup (T1543)](HuntersToolbox/Persistence_LOLBAS/Service_Install_Startup.kql)
+  - [AAD Role Assignment Drift (T1098.004)](HuntersToolbox/Persistence_LOLBAS/AAD_Role_Assignment_Drift.kql)
+  - [Certutil Download (LOLBAS)](HuntersToolbox/Persistence_LOLBAS/Certutil_Download.kql)
+  - [Rundll32 Script Exec](HuntersToolbox/Persistence_LOLBAS/Rundll32_ScriptExec.kql)
+  - [MSHTA Script Exec](HuntersToolbox/Persistence_LOLBAS/MSHTA_ScriptExec.kql)
+  - [Regsvr32 Scripted COM](HuntersToolbox/Persistence_LOLBAS/Regsvr32_ScriptedCOM.kql)
+  - [Powershell Encoded Commands](HuntersToolbox/Persistence_LOLBAS/Powershell_Encoded.kql)
+  - [Bitsadmin Download](HuntersToolbox/Persistence_LOLBAS/Bitsadmin_Download.kql)
+
+- [⚡ Detections](#-detections)
+  - [OAuth Consent or App Role Assignment](Detections/OAuth_Consent_or_App_Role_Assignment/rule.yaml)
+  - [Persistence – Scheduled Tasks](Detections/Persistence/ScheduledTasks/rule.yaml)
+  - [Persistence – Registry Run Keys](Detections/Persistence/Registry_RunKeys/rule.yaml)
+  - [Persistence – Service Install Startup](Detections/Persistence/Service_Install_Startup/rule.yaml)
+
+- [📊 Dashboards](#-dashboards)
+  - [Persistence & Evasion Seed](Dashboards/Persistence_Evasion.kql)
+
+- [📂 Watchlists](#-watchlists)
+  - [VIP Users](Watchlists/vip_users.csv)
+  - [TOR Exit Nodes](Watchlists/tor_exit_nodes.csv)
+
+- [📚 References](References/README.md)
 
 ```mermaid
 flowchart TD
