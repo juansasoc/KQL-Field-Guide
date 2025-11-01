@@ -1,0 +1,7 @@
+// Defender Tamper / Disabled
+let lookback = 24h;
+DeviceEvents
+| where TimeGenerated >= ago(lookback)
+| where ActionType in ("TamperProtectionDisabled","SecurityCenterDisabled","ProductTamperEvent")
+| summarize events=count() by DeviceName, ActionType, bin(TimeGenerated, 1h)
+| order by events desc

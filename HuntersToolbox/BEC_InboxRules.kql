@@ -1,0 +1,8 @@
+// Exchange Inbox Rule Abuse (BEC)
+let lookback = 72h;
+OfficeActivity
+| where TimeGenerated >= ago(lookback)
+| where Workload == "Exchange" and Operation in ("New-InboxRule","Set-InboxRule")
+| where Parameters has_any ("forward", "redirect", "DeleteMessage", "MoveToFolder")
+| project TimeGenerated, UserId, Operation, Parameters
+| order by TimeGenerated desc

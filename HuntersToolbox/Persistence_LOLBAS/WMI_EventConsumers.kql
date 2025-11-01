@@ -1,0 +1,7 @@
+// WMI Permanent Event Subscriptions - MITRE T1546.003
+let lookback = 48h;
+DeviceEvents
+| where TimeGenerated >= ago(lookback)
+| where ActionType in ("WmiEventFilterActivity","WmiEventConsumerActivity","WmiBindingActivity")
+| summarize Events=count(), Kinds=make_set(ActionType) by DeviceName, InitiatingProcessAccountName, bin(TimeGenerated, 1h)
+| order by Events desc

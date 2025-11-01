@@ -1,0 +1,8 @@
+// AAD/ARM Role Assignment Drift - MITRE T1098.004
+let lookback = 72h;
+AzureActivity
+| where TimeGenerated >= ago(lookback)
+| where OperationNameValue =~ "Microsoft.Authorization/roleAssignments/write"
+| extend p=parse_json(Properties)
+| project TimeGenerated, Caller, PrincipalId=tostring(p.principalId), Role=tostring(p.roleDefinitionName), Scope=tostring(p.scope)
+| order by TimeGenerated desc

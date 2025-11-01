@@ -1,0 +1,17 @@
+// Impossible Travel
+let lookback = 7d;
+let speed_threshold_kmph = 900.0;
+SigninLogs
+| where TimeGenerated >= ago(lookback) and ResultType == 0
+| extend lat=todouble(LocationDetails["geoCoordinates"]["latitude"]),
+         lon=todouble(LocationDetails["geoCoordinates"]["longitude"])
+| project TimeGenerated, UserPrincipalName, IPAddress, lat, lon
+| order by UserPrincipalName asc, TimeGenerated asc
+| serialize
+| extend prevTime=prev(TimeGenerated), prevLat=prev(lat), prevLon=prev(lon), prevUser=prev(UserPrincipalName)
+| where UserPrincipalName == prevUser
+| extend dist_m = geo_distance_2points(prevLat, prevLon, lat, lon),
+         hours = abs(datetime_diff("minute", TimeGenerated, prevTime))/60.0,
+         speed_kmph = (dist_m/1000.0) / case(hours == 0.0, 0.001, hours)
+| where speed_kmph > speed_threshold_kmph
+| project TimeGenerated, UserPrincipalName, IPAddress, speed_kmph, prevTime

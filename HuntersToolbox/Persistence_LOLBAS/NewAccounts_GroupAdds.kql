@@ -1,0 +1,9 @@
+// Account Manipulation - MITRE T1098/T1098.001
+let lookback = 48h;
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID in (4720, 4732)
+| extend Action=case(EventID==4720, "UserCreated", EventID==4732, "GroupAdd", "Other"),
+         Target=tostring(TargetUserName), Group=tostring(GroupName)
+| summarize Events=count() by Computer, Action, Target, Group, bin(TimeGenerated, 2h)
+| order by TimeGenerated desc

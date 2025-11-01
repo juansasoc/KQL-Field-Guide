@@ -1,0 +1,23 @@
+// Persistence & Evasion Workbook Seed
+let lookback = 14d;
+
+// 1) Scheduled Tasks daily count
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 4698
+| summarize Tasks=count() by bin(TimeGenerated, 1d)
+
+// 2) Service installs by ImagePath (daily)
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 7045
+| extend ImagePath = tostring(EventData["ImagePath"])
+| summarize Installs=count() by bin(TimeGenerated, 1d), ImagePath
+| order by Installs desc
+
+// 3) LOLBAS counts by binary (daily)
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName in~ ("certutil.exe","rundll32.exe","mshta.exe","regsvr32.exe","bitsadmin.exe","powershell.exe","pwsh.exe")
+| summarize Events=count() by FileName, bin(TimeGenerated, 1d)
+| order by Events desc

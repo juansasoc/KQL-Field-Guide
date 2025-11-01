@@ -1,0 +1,8 @@
+// bitsadmin downloads/staging - MITRE T1197/T1105
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName =~ "bitsadmin.exe"
+| where ProcessCommandLine has_any ("/transfer", "/addfile", "http://", "https://")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc

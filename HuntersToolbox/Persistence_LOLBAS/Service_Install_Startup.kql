@@ -1,0 +1,10 @@
+// New Service Install / Start - MITRE T1543
+let lookback = 48h;
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 7045
+| extend ServiceName = tostring(EventData["ServiceName"]),
+         ImagePath   = tostring(EventData["ImagePath"]),
+         StartType   = tostring(EventData["StartType"])
+| project TimeGenerated, Computer, ServiceName, StartType, ImagePath
+| order by TimeGenerated desc

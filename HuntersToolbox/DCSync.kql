@@ -1,0 +1,7 @@
+// DCSync-like Replication Priv Abuse
+let lookback = 24h;
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 4662
+| where ObjectName has "DS-Replication-Get-Changes"
+| project TimeGenerated, SubjectUserName, ObjectName, AccessMask, Properties

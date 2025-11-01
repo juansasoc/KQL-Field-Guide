@@ -1,0 +1,16 @@
+id: scheduledtasks-auto-20250101000000
+name: ScheduledTasks (Persistence)
+severity: Medium
+status: GA
+queryFrequency: 24h
+queryPeriod: 24h
+triggerOperator: GreaterThan
+triggerThreshold: 0
+tactics:
+  - persistence
+relevantTechniques:
+  - T1053.005
+query: |
+  // See HuntersToolbox/Persistence_LOLBAS/ScheduledTasks.kql
+suppressionEnabled: false
+kind: Scheduled

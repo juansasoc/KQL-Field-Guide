@@ -1,0 +1,8 @@
+// certutil web downloads - MITRE T1105/T1218.010
+let lookback = 24h;
+DeviceProcessEvents
+| where TimeGenerated >= ago(lookback)
+| where FileName =~ "certutil.exe"
+| where ProcessCommandLine has_any ("-urlcache", "-split", "http://", "https://")
+| project TimeGenerated, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+| order by TimeGenerated desc

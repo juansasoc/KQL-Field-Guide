@@ -1,0 +1,9 @@
+// Kerberoasting Spike
+let lookback = 24h;
+SecurityEvent
+| where TimeGenerated >= ago(lookback)
+| where EventID == 4769
+| where TicketEncryptionType in ("0x17")
+| summarize Requests=count() by ServiceName, Account, IPAddress, bin(TimeGenerated, 1h)
+| where Requests > 50
+| order by Requests desc
